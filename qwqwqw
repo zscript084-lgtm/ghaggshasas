@@ -23,7 +23,6 @@ task.spawn(function()
         if welcomeBar then
             welcomeBar:Destroy()
         end
-        
         for _, v in pairs(Main:GetDescendants()) do
             if v:IsA("TextLabel") and (v.Text:find("Welcome") or v.Text:find(LocalPlayer.Name)) then
                 if v.Parent and v.Parent:IsA("Frame") and v.Parent ~= Main then
@@ -128,15 +127,12 @@ local function createButton(name, callback, parent, layoutOrder, isSmall)
     row.BackgroundColor3 = isSmall and Color3.new(0, 0, 0) or Color3.fromRGB(255, 80, 80)
     row.ZIndex = 15
     row.LayoutOrder = layoutOrder or 0
-    
     local rowCorner = Instance.new("UICorner", row)
     rowCorner.CornerRadius = UDim.new(0, 6)
-    
     local rowStroke = Instance.new("UIStroke", row)
     rowStroke.Color = isSmall and Color3.new(1, 1, 1) or Color3.fromRGB(255, 80, 80)
     rowStroke.Thickness = isSmall and 1 or 1.2
     rowStroke.Transparency = isSmall and 0.5 or 0
-    
     local btn = Instance.new("TextButton", row)
     btn.Size = UDim2.new(1, 0, 1, 0)
     btn.BackgroundTransparency = 1
@@ -146,7 +142,6 @@ local function createButton(name, callback, parent, layoutOrder, isSmall)
     btn.Font = Enum.Font.GothamBold
     btn.TextSize = isSmall and 12 or 14
     btn.ZIndex = 16
-
     btn.MouseButton1Click:Connect(function()
         if not isSmall then
             row.BackgroundTransparency = 0.7
@@ -160,6 +155,41 @@ end
 
 local function addButtons()
     if ButtonsContainer:FindFirstChild("Straight Line") then return end
+
+    local DuskDropContainer = Instance.new("Frame", ButtonsContainer)
+    DuskDropContainer.Name = "DuskDropdown"
+    DuskDropContainer.Size = UDim2.new(1, -8, 0, 38)
+    DuskDropContainer.BackgroundTransparency = 1
+    DuskDropContainer.ClipsDescendants = true
+    DuskDropContainer.LayoutOrder = -1
+    local DuskDropLayout = Instance.new("UIListLayout", DuskDropContainer)
+    DuskDropLayout.SortOrder = Enum.SortOrder.LayoutOrder
+    DuskDropLayout.Padding = UDim.new(0, 5)
+    local DuskInnerScroll = Instance.new("ScrollingFrame", DuskDropContainer)
+    DuskInnerScroll.Size = UDim2.new(1, 0, 0, 70)
+    DuskInnerScroll.BackgroundTransparency = 1
+    DuskInnerScroll.BorderSizePixel = 0
+    DuskInnerScroll.ScrollBarThickness = 2
+    DuskInnerScroll.ScrollBarImageColor3 = Color3.new(1, 1, 1)
+    DuskInnerScroll.Visible = false
+    DuskInnerScroll.LayoutOrder = 2
+    DuskInnerScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    local DuskInnerLayout = Instance.new("UIListLayout", DuskInnerScroll)
+    DuskInnerLayout.Padding = UDim.new(0, 5)
+    local duskDropped = false
+    createButton("Survive Area 51 Dusk Ugc ▼", function(btn)
+        duskDropped = not duskDropped
+        local targetSize = duskDropped and UDim2.new(1, -8, 0, 115) or UDim2.new(1, -8, 0, 38)
+        btn.Text = duskDropped and "Survive Area 51 Dusk Ugc ▲" or "Survive Area 51 Dusk Ugc ▼"
+        DuskInnerScroll.Visible = duskDropped
+        TweenService:Create(DuskDropContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = targetSize}):Play()
+    end, DuskDropContainer, 1)
+    createButton("instant badge", function()
+        loadstring(game:HttpGet("https://pastefy.app/VJc6nI4m/raw"))()
+    end, DuskInnerScroll, 1, true)
+    createButton("infinite yield", function()
+        loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+    end, DuskInnerScroll, 2, true)
 
     createButton("Straight Line", function()
         loadstring(game:HttpGet("https://pastebin.com/raw/Ctutc7bA"))()
@@ -183,11 +213,9 @@ local function addButtons()
     DropContainer.BackgroundTransparency = 1
     DropContainer.ClipsDescendants = true
     DropContainer.LayoutOrder = 3
-
     local DropLayout = Instance.new("UIListLayout", DropContainer)
     DropLayout.SortOrder = Enum.SortOrder.LayoutOrder
     DropLayout.Padding = UDim.new(0, 5)
-
     local InnerScroll = Instance.new("ScrollingFrame", DropContainer)
     InnerScroll.Name = "InnerScroll"
     InnerScroll.Size = UDim2.new(1, 0, 0, 150)
@@ -198,34 +226,28 @@ local function addButtons()
     InnerScroll.Visible = false
     InnerScroll.LayoutOrder = 2
     InnerScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    
     local InnerPadding = Instance.new("UIPadding", InnerScroll)
     InnerPadding.PaddingTop = UDim.new(0, 2)
     InnerPadding.PaddingLeft = UDim.new(0, 5)
-
     local InnerLayout = Instance.new("UIListLayout", InnerScroll)
     InnerLayout.Padding = UDim.new(0, 5)
-
     local isDropped = false
-    local HeaderRow = createButton("Method Ten ▼", function(btn)
+    createButton("Method Ten ▼", function(btn)
         isDropped = not isDropped
         local targetSize = isDropped and UDim2.new(1, -8, 0, 220) or UDim2.new(1, -8, 0, 38)
         btn.Text = isDropped and "Method Ten ▲" or "Method Ten ▼"
         InnerScroll.Visible = isDropped
         TweenService:Create(DropContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = targetSize}):Play()
     end, DropContainer, 1)
-
     createButton("TP to Secret Part", function()
         loadstring(game:HttpGet("https://pastebin.com/raw/Zsbkn5AU"))()
     end, InnerScroll, 1, true)
-
     createButton("Tp To The Top", function()
         local part = workspace:FindFirstChild("Classic Roblox Teleporter") and workspace["Classic Roblox Teleporter"]:FindFirstChild("Beam2")
         if part and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
             LocalPlayer.Character.HumanoidRootPart.CFrame = part.CFrame
         end
     end, InnerScroll, 2, true)
-
     createButton("/spawn platform", function()
         if setclipboard then
             setclipboard("/spawn platform")
@@ -244,11 +266,9 @@ local function addButtons()
     FlexDropContainer.BackgroundTransparency = 1
     FlexDropContainer.ClipsDescendants = true
     FlexDropContainer.LayoutOrder = 5
-
     local FlexLayout = Instance.new("UIListLayout", FlexDropContainer)
     FlexLayout.SortOrder = Enum.SortOrder.LayoutOrder
     FlexLayout.Padding = UDim.new(0, 5)
-
     local FlexInnerScroll = Instance.new("ScrollingFrame", FlexDropContainer)
     FlexInnerScroll.Name = "FlexInnerScroll"
     FlexInnerScroll.Size = UDim2.new(1, 0, 0, 50)
@@ -259,14 +279,11 @@ local function addButtons()
     FlexInnerScroll.Visible = false
     FlexInnerScroll.LayoutOrder = 2
     FlexInnerScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    
     local FlexInnerPadding = Instance.new("UIPadding", FlexInnerScroll)
     FlexInnerPadding.PaddingTop = UDim.new(0, 2)
     FlexInnerPadding.PaddingLeft = UDim.new(0, 5)
-
     local FlexInnerLayout = Instance.new("UIListLayout", FlexInnerScroll)
     FlexInnerLayout.Padding = UDim.new(0, 5)
-
     local flexDropped = false
     createButton("Flex Ugc Codes ▼", function(btn)
         flexDropped = not flexDropped
@@ -275,7 +292,6 @@ local function addButtons()
         FlexInnerScroll.Visible = flexDropped
         TweenService:Create(FlexDropContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = targetSize}):Play()
     end, FlexDropContainer, 1)
-
     createButton("Egg Hunt", function()
         loadstring(game:HttpGet("https://pastebin.com/raw/s3jDYw7Z"))()
     end, FlexInnerScroll, 1, true)
@@ -292,11 +308,9 @@ local function addButtons()
     DinoDropContainer.BackgroundTransparency = 1
     DinoDropContainer.ClipsDescendants = true
     DinoDropContainer.LayoutOrder = 7
-
     local DinoLayout = Instance.new("UIListLayout", DinoDropContainer)
     DinoLayout.SortOrder = Enum.SortOrder.LayoutOrder
     DinoLayout.Padding = UDim.new(0, 5)
-
     local DinoInnerScroll = Instance.new("ScrollingFrame", DinoDropContainer)
     DinoInnerScroll.Name = "DinoInnerScroll"
     DinoInnerScroll.Size = UDim2.new(1, 0, 0, 50)
@@ -307,14 +321,11 @@ local function addButtons()
     DinoInnerScroll.Visible = false
     DinoInnerScroll.LayoutOrder = 2
     DinoInnerScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    
     local DinoInnerPadding = Instance.new("UIPadding", DinoInnerScroll)
     DinoInnerPadding.PaddingTop = UDim.new(0, 2)
     DinoInnerPadding.PaddingLeft = UDim.new(0, 5)
-
     local DinoInnerLayout = Instance.new("UIListLayout", DinoInnerScroll)
     DinoInnerLayout.Padding = UDim.new(0, 5)
-
     local dinoDropped = false
     createButton("Lil Dino Egg Hunt ▼", function(btn)
         dinoDropped = not dinoDropped
@@ -323,7 +334,6 @@ local function addButtons()
         DinoInnerScroll.Visible = dinoDropped
         TweenService:Create(DinoDropContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = targetSize}):Play()
     end, DinoDropContainer, 1)
-
     createButton("It's EZ", function()
         local target = workspace:FindFirstChild("GeneratedRooms") and workspace.GeneratedRooms:FindFirstChild("EggRoom") and workspace.GeneratedRooms.EggRoom:FindFirstChild("BadgeGiver")
         if target and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
@@ -331,17 +341,19 @@ local function addButtons()
         end
     end, DinoInnerScroll, 1, true)
 
+    createButton("Gamer Supremacy Badge Walk", function()
+        loadstring(game:HttpGet("https://pastefy.app/RDdXVRxK/raw"))()
+    end, ButtonsContainer, 8)
+
     local TrialsDropContainer = Instance.new("Frame", ButtonsContainer)
     TrialsDropContainer.Name = "TrialsDropdown"
     TrialsDropContainer.Size = UDim2.new(1, -8, 0, 38)
     TrialsDropContainer.BackgroundTransparency = 1
     TrialsDropContainer.ClipsDescendants = true
-    TrialsDropContainer.LayoutOrder = 8
-
+    TrialsDropContainer.LayoutOrder = 9
     local TrialsLayout = Instance.new("UIListLayout", TrialsDropContainer)
     TrialsLayout.SortOrder = Enum.SortOrder.LayoutOrder
     TrialsLayout.Padding = UDim.new(0, 5)
-
     local TrialsInnerScroll = Instance.new("ScrollingFrame", TrialsDropContainer)
     TrialsInnerScroll.Size = UDim2.new(1, 0, 0, 180)
     TrialsInnerScroll.BackgroundTransparency = 1
@@ -351,45 +363,37 @@ local function addButtons()
     TrialsInnerScroll.Visible = false
     TrialsInnerScroll.LayoutOrder = 2
     TrialsInnerScroll.AutomaticCanvasSize = Enum.AutomaticSize.Y
-    
     local TrialsInnerPadding = Instance.new("UIPadding", TrialsInnerScroll)
     TrialsInnerPadding.PaddingTop = UDim.new(0, 2)
     TrialsInnerPadding.PaddingLeft = UDim.new(0, 5)
-
     local TrialsInnerLayout = Instance.new("UIListLayout", TrialsInnerScroll)
     TrialsInnerLayout.Padding = UDim.new(0, 5)
-
     local trialsDropped = false
     createButton("Trials Of Intellectus ▼", function(btn)
         trialsDropped = not trialsDropped
-        local targetSize = trialsDropped and UDim2.new(1, -8, 0, 220) or UDim2.new(1, -8, 0, 38)
+        local targetSize = trialsDropped and UDim2.new(1, -8, 0, 260) or UDim2.new(1, -8, 0, 38)
         btn.Text = trialsDropped and "Trials Of Intellectus ▲" or "Trials Of Intellectus ▼"
         TrialsInnerScroll.Visible = trialsDropped
         TweenService:Create(TrialsDropContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = targetSize}):Play()
     end, TrialsDropContainer, 1)
-
     createButton("x2 usn id purple portal", function()
         loadstring(game:HttpGet("https://pastebin.com/raw/vtvK3q7N"))()
     end, TrialsInnerScroll, 1, true)
-
     local GreenDropContainer = Instance.new("Frame", TrialsInnerScroll)
     GreenDropContainer.Name = "GreenPortalDropdown"
     GreenDropContainer.Size = UDim2.new(1, -10, 0, 28)
     GreenDropContainer.BackgroundTransparency = 1
     GreenDropContainer.ClipsDescendants = true
     GreenDropContainer.LayoutOrder = 2
-
     local GreenLayout = Instance.new("UIListLayout", GreenDropContainer)
     GreenLayout.SortOrder = Enum.SortOrder.LayoutOrder
     GreenLayout.Padding = UDim.new(0, 5)
-
     local GreenCodeFrame = Instance.new("Frame", GreenDropContainer)
     GreenCodeFrame.Size = UDim2.new(1, 0, 0, 60)
     GreenCodeFrame.BackgroundTransparency = 0.9
     GreenCodeFrame.BackgroundColor3 = Color3.new(0, 0, 0)
     GreenCodeFrame.Visible = false
     GreenCodeFrame.LayoutOrder = 2
-
     local GreenCodeLabel = Instance.new("TextLabel", GreenCodeFrame)
     GreenCodeLabel.Size = UDim2.new(1, -10, 1, 0)
     GreenCodeLabel.Position = UDim2.new(0, 5, 0, 0)
@@ -399,7 +403,6 @@ local function addButtons()
     GreenCodeLabel.Font = Enum.Font.GothamBold
     GreenCodeLabel.TextSize = 11
     GreenCodeLabel.TextWrapped = true
-
     local greenDropped = false
     createButton("Green Portal ▼", function(btn)
         greenDropped = not greenDropped
@@ -408,16 +411,11 @@ local function addButtons()
         GreenCodeFrame.Visible = greenDropped
         TweenService:Create(GreenDropContainer, TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = targetSize}):Play()
     end, GreenDropContainer, 1, true)
-
     createButton("Blue Portal", function()
         if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
             LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-164, 3, 69)
         end
     end, TrialsInnerScroll, 3, true)
-
-    createButton("Gamer Supremacy Badge Walk", function()
-        loadstring(game:HttpGet("https://pastefy.app/RDdXVRxK/raw"))()
-    end, ButtonsContainer, 9)
 end
 
 if Triangle then
@@ -427,7 +425,6 @@ if Triangle then
         if IPReveal then IPReveal.Visible = false end
         if HWIDReveal then HWIDReveal.Visible = false end
         if Content then Content.Visible = false end
-        
         local flash = Instance.new("Frame", Main)
         flash.Size = UDim2.new(1, 0, 1, 0)
         flash.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
@@ -435,12 +432,10 @@ if Triangle then
         Instance.new("UICorner", flash).CornerRadius = UDim.new(0, 10)
         TweenService:Create(flash, TweenInfo.new(0.8), {BackgroundTransparency = 1}):Play()
         task.delay(0.8, function() flash:Destroy() end)
-        
         local overSize = UDim2.new(0, fullSize.X.Offset + 20, 0, fullSize.Y.Offset + 20)
         TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Sine), {Size = overSize}):Play()
         task.wait(0.5)
         TweenService:Create(Main, TweenInfo.new(0.8, Enum.EasingStyle.Bounce), {Size = fullSize}):Play()
-        
         ButtonsContainer.Visible = true
         addButtons()
     end)
@@ -463,5 +458,5 @@ CloseBtn.MouseButton1Click:Connect(function()
         if Triangle then Triangle.Visible = false end
         if Content then Content.Visible = true end
         TweenService:Create(Main, TweenInfo.new(0.6, Enum.EasingStyle.Quart), {Size = collapsedSize}):Play()
-    end 
+    end
 end)
