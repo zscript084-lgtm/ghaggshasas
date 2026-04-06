@@ -1,0 +1,3 @@
+while task.wait(0.2) do
+    game:GetService("ReplicatedStorage").Remotes.EasterClient:FireServer("Egg")
+end
