@@ -420,6 +420,10 @@ local function addButtons()
     createButton("A Menagerie of Untold Stories", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/zscript084-lgtm/ghaggshasas/refs/heads/main/ai_studio_code%20(1).txt"))()
     end, ButtonsContainer, 10)
+
+    createButton("B E Y O N D The Forgotten Hallways", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/zscript084-lgtm/ghaggshasas/refs/heads/main/qwjqhjkhwkhqw"))()
+    end, ButtonsContainer, 11)
 end
 
 if Triangle then
