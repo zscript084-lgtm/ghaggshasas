@@ -1,0 +1,5 @@
+local lp = game:GetService("Players").LocalPlayer
+local e = workspace:FindFirstChild("ChickenEgg")
+if e and lp.Character then
+    lp.Character:PivotTo(e.CFrame)
+end
