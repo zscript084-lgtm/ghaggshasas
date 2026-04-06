@@ -1,0 +1,48 @@
+task.spawn(function()
+    local lp = game:GetService("Players").LocalPlayer
+    while task.wait(0.1) do
+        pcall(function()
+            local pg = lp:FindFirstChild("PlayerGui")
+            if pg then
+                local mg = pg:FindFirstChild("MenuGui")
+                if mg then
+                    local targets = {
+                        mg:FindFirstChild("ChapterMenu") and mg.ChapterMenu:FindFirstChild("ChapterCanvas") and mg.ChapterMenu.ChapterCanvas:FindFirstChild("Page1"),
+                        mg:FindFirstChild("ChapterMenu") and mg.ChapterMenu:FindFirstChild("ChapterCanvas") and mg.ChapterMenu.ChapterCanvas:FindFirstChild("Page2"),
+                        mg:FindFirstChild("ChapterMenu") and mg.ChapterMenu:FindFirstChild("ChapterCanvas") and mg.ChapterMenu.ChapterCanvas:FindFirstChild("Page1") and mg.ChapterMenu.ChapterCanvas.Page1:FindFirstChild("egg3"),
+                        mg:FindFirstChild("ChapterMenu") and mg.ChapterMenu:FindFirstChild("ChapterCanvas") and mg.ChapterMenu.ChapterCanvas:FindFirstChild("Page1") and mg.ChapterMenu.ChapterCanvas.Page1:FindFirstChild("egg4"),
+                        mg:FindFirstChild("ChapterMenu") and mg.ChapterMenu:FindFirstChild("ChapterCanvas") and mg.ChapterMenu.ChapterCanvas:FindFirstChild("Page2") and mg.ChapterMenu.ChapterCanvas.Page2:FindFirstChild("egg5"),
+                        mg:FindFirstChild("MainMenu") and mg.MainMenu:FindFirstChild("egg1"),
+                        mg:FindFirstChild("MainMenu") and mg.MainMenu:FindFirstChild("egg2")
+                    }
+
+                    for _, v in pairs(targets) do
+                        if v and v:IsA("GuiObject") then
+                            v.Visible = true
+                            v.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+                            v.BackgroundTransparency = 0
+                            v.BorderSizePixel = 5
+                            v.BorderColor3 = Color3.fromRGB(255, 255, 255)
+                            v.ZIndex = 1000
+                            
+                            local s = v:FindFirstChild("VisualEffect") or Instance.new("UIStroke")
+                            s.Name = "VisualEffect"
+                            s.Thickness = 8
+                            s.Color = Color3.fromRGB(255, 0, 0)
+                            s.Transparency = 0
+                            s.Enabled = true
+                            s.Parent = v
+
+                            if v:IsA("TextLabel") or v:IsA("TextButton") then
+                                v.TextColor3 = Color3.fromRGB(255, 255, 255)
+                            end
+                            if v:IsA("ImageLabel") or v:IsA("ImageButton") then
+                                v.ImageColor3 = Color3.fromRGB(255, 0, 0)
+                            end
+                        end
+                    end
+                end
+            end
+        end)
+    end
+end)
