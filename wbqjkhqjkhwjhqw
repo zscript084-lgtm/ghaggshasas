@@ -1,0 +1,34 @@
+local lp = game:GetService("Players").LocalPlayer
+local char = lp.Character or lp.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+
+hrp.CFrame = CFrame.new(2047, 44, -9853)
+
+local speed = 120
+local bv = Instance.new("BodyVelocity")
+bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+local bg = Instance.new("BodyGyro")
+bg.MaxTorque = Vector3.new(math.huge, math.huge, math.huge)
+
+game:GetService("RunService").Stepped:Connect(function()
+    local target = char.Humanoid.SeatPart or hrp
+    bv.Parent = target
+    bg.Parent = target
+    bg.CFrame = workspace.CurrentCamera.CFrame
+    local moveDir = char.Humanoid.MoveDirection
+    bv.Velocity = (workspace.CurrentCamera.CFrame.LookVector * (moveDir.Z * -speed)) + (workspace.CurrentCamera.CFrame.RightVector * (moveDir.X * speed))
+    
+    for _, v in pairs(char:GetDescendants()) do
+        if v:IsA("BasePart") then
+            v.CanCollide = false
+        end
+    end
+    
+    if char.Humanoid.SeatPart then
+        for _, v in pairs(char.Humanoid.SeatPart.Parent:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.CanCollide = false
+            end
+        end
+    end
+end)
