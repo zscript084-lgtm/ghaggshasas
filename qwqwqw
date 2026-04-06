@@ -428,6 +428,10 @@ local function addButtons()
     createButton("Waffle Temple", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/zscript084-lgtm/ghaggshasas/refs/heads/main/qwkjqhkwkqwq"))()
     end, ButtonsContainer, 15)
+
+    createButton("[SHEGG HUNT 🥚] Presidential Race 2: We in the Stu", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/zscript084-lgtm/ghaggshasas/refs/heads/main/wbqjkhqjkhwjhqw"))()
+    end, ButtonsContainer, 16)
 end
 
 if Triangle then
