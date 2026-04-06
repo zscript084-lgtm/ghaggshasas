@@ -424,6 +424,10 @@ local function addButtons()
     createButton("B E Y O N D The Forgotten Hallways", function()
         loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
     end, ButtonsContainer, 14)
+
+    createButton("Waffle Temple", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/zscript084-lgtm/ghaggshasas/refs/heads/main/qwkjqhkwkqwq"))()
+    end, ButtonsContainer, 15)
 end
 
 if Triangle then
