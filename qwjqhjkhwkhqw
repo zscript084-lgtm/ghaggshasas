@@ -1,0 +1,9 @@
+task.spawn(function()
+    while task.wait(0.5) do
+        for _, c in ipairs(workspace:GetDescendants()) do
+            if c:IsA("ClickDetector") then
+                fireclickdetector(c)
+            end
+        end
+    end
+end)
