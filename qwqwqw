@@ -416,6 +416,10 @@ local function addButtons()
             LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-164, 3, 69)
         end
     end, TrialsInnerScroll, 3, true)
+
+    createButton("A Menagerie of Untold Stories", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/zscript084-lgtm/ghaggshasas/refs/heads/main/ai_studio_code%20(1).txt"))()
+    end, ButtonsContainer, 10)
 end
 
 if Triangle then
