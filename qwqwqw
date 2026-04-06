@@ -432,6 +432,10 @@ local function addButtons()
     createButton("[SHEGG HUNT 🥚] Presidential Race 2: We in the Stu", function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/zscript084-lgtm/ghaggshasas/refs/heads/main/wbqjkhqjkhwjhqw"))()
     end, ButtonsContainer, 16)
+
+    createButton("Chaos Castle", function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/zscript084-lgtm/ghaggshasas/refs/heads/main/ai_studio_code.txt"))()
+    end, ButtonsContainer, 17)
 end
 
 if Triangle then
