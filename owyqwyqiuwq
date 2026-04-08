@@ -1,0 +1,287 @@
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local UIS = game:GetService("UserInputService")
+local CoreGui = game:GetService("CoreGui")
+local VirtualUser = game:GetService("VirtualUser")
+local VirtualInputManager = game:GetService("VirtualInputManager")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+
+if CoreGui:FindFirstChild("NeizHub") then
+    CoreGui:FindFirstChild("NeizHub"):Destroy()
+end
+
+pcall(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/zeroextwenty-eng/iddkkkkkd/refs/heads/main/obfuscated_script-1773378767954.lua"))()
+end)
+
+local NeizHub = CoreGui:WaitForChild("NeizHub", 15)
+local Main = NeizHub and NeizHub:WaitForChild("Main", 15)
+
+if not Main then return end
+
+local noclip = false
+local autoCollect = false
+local antiAfk = false
+
+task.spawn(function()
+    while true do
+        if antiAfk then
+            pcall(function()
+                VirtualUser:CaptureController()
+                VirtualUser:ClickButton2(Vector2.new())
+            end)
+        end
+        task.wait(60)
+    end
+end)
+
+RunService.Stepped:Connect(function()
+    if noclip and LocalPlayer.Character then
+        for _, v in ipairs(LocalPlayer.Character:GetDescendants()) do
+            if v:IsA("BasePart") then
+                v.CanCollide = false
+            end
+        end
+    end
+end)
+
+task.spawn(function()
+    while true do
+        if autoCollect then
+            pcall(function()
+                local char = LocalPlayer.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                if hrp then
+                    local targets = {
+                        workspace:FindFirstChild("ExchangeEvent"),
+                        workspace.ExchangeEvent and workspace.ExchangeEvent:FindFirstChild("Factory"),
+                        workspace.ExchangeEvent and workspace.ExchangeEvent:FindFirstChild("Portal")
+                    }
+                    for _, root in ipairs(targets) do
+                        if root then
+                            for _, v in ipairs(root:GetDescendants()) do
+                                if (v.Name == "upper_egg_low" or v.Name == "under_egg_low" or v.Name == "Egg") and autoCollect then
+                                    local p = v:IsA("BasePart") and v or v:FindFirstChildWhichIsA("BasePart")
+                                    if p then
+                                        hrp.CFrame = p.CFrame + Vector3.new(0,2,0)
+                                        task.wait(0.4)
+                                        VirtualInputManager:SendKeyEvent(true, Enum.KeyCode.E, false, game)
+                                        task.wait(0.15)
+                                        VirtualInputManager:SendKeyEvent(false, Enum.KeyCode.E, false, game)
+                                        task.wait(1)
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end
+            end)
+        end
+        task.wait(0.3)
+    end
+end)
+
+task.spawn(function()
+    while true do
+        local welcomeBar = Main:FindFirstChild("BottomInfo")
+        if welcomeBar then welcomeBar:Destroy() end
+        for _, v in pairs(Main:GetDescendants()) do
+            if v:IsA("TextLabel") and (v.Text:find("Welcome") or v.Text:find(LocalPlayer.Name)) then
+                if v.Parent and v.Parent:IsA("Frame") and v.Parent ~= Main then
+                    v.Parent:Destroy()
+                else
+                    v:Destroy()
+                end
+            end
+        end
+        task.wait(0.1)
+    end
+end)
+
+local fullSize = Main.Size
+local collapsedSize = UDim2.new(fullSize.X.Scale, fullSize.X.Offset, 0, 40)
+
+Main.ClipsDescendants = true
+Main.BackgroundColor3 = Color3.fromRGB(14, 10, 10)
+Main.BackgroundTransparency = 0.3
+
+local MainCorner = Main:FindFirstChildOfClass("UICorner") or Instance.new("UICorner", Main)
+MainCorner.CornerRadius = UDim.new(0, 10)
+
+local MainStroke = Main:FindFirstChildOfClass("UIStroke") or Instance.new("UIStroke", Main)
+MainStroke.Color = Color3.fromRGB(255, 80, 80)
+MainStroke.Thickness = 2
+MainStroke.Transparency = 0
+
+local BgImage = Instance.new("ImageLabel", Main)
+BgImage.Name = "CustomBackground"
+BgImage.Size = UDim2.new(1, 0, 1, 0)
+BgImage.Position = UDim2.new(0, 0, 0, 0)
+BgImage.Image = "rbxassetid://137184743125361"
+BgImage.BackgroundTransparency = 1
+BgImage.ImageTransparency = 0.6
+BgImage.ZIndex = 0
+BgImage.ScaleType = Enum.ScaleType.Crop
+
+local Triangle = Main:FindFirstChild("Triangle")
+local Content = Main:FindFirstChild("Content")
+local IPReveal = Main:FindFirstChild("IPReveal")
+local HWIDReveal = Main:FindFirstChild("HWIDReveal")
+
+local dragging, dragStart, startPos
+Main.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = Main.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then dragging = false end
+        end)
+    end
+end)
+
+UIS.InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        Main.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+    end
+end)
+
+local isOpen = true
+local triangleClicked = false
+
+local TopBar = Instance.new("Frame", Main)
+TopBar.Size = UDim2.new(1, 0, 0, 40)
+TopBar.BackgroundTransparency = 1
+TopBar.ZIndex = 5
+
+local CloseBtn = Instance.new("TextButton", TopBar)
+CloseBtn.Size = UDim2.new(0, 30, 0, 30)
+CloseBtn.Position = UDim2.new(1, -35, 0, 5)
+CloseBtn.BackgroundTransparency = 1
+CloseBtn.Text = "−"
+CloseBtn.TextColor3 = Color3.fromRGB(255, 80, 80)
+CloseBtn.Font = Enum.Font.GothamBold
+CloseBtn.TextSize = 22
+CloseBtn.ZIndex = 20
+
+local ButtonsContainer = Instance.new("ScrollingFrame", Main)
+ButtonsContainer.Size = UDim2.new(1, -20, 1, -55)
+ButtonsContainer.Position = UDim2.new(0, 10, 0, 45)
+ButtonsContainer.BackgroundTransparency = 1
+ButtonsContainer.BorderSizePixel = 0
+ButtonsContainer.ScrollBarThickness = 3
+ButtonsContainer.ScrollBarImageColor3 = Color3.fromRGB(255, 80, 80)
+ButtonsContainer.AutomaticCanvasSize = Enum.AutomaticSize.Y
+ButtonsContainer.ZIndex = 10
+ButtonsContainer.Visible = false
+
+local UIListLayout = Instance.new("UIListLayout", ButtonsContainer)
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 8)
+
+local function createToggle(name, layoutOrder, callback)
+    local row = Instance.new("Frame", ButtonsContainer)
+    row.Size = UDim2.new(1, -5, 0, 38)
+    row.BackgroundTransparency = 1
+    row.LayoutOrder = layoutOrder or 0
+    row.ZIndex = 11
+    
+    local rStroke = Instance.new("UIStroke", row)
+    rStroke.Color = Color3.fromRGB(255, 80, 80)
+    rStroke.Thickness = 1.2
+    rStroke.Transparency = 0.2
+
+    local rCorner = Instance.new("UICorner", row)
+    rCorner.CornerRadius = UDim.new(0, 8)
+
+    local btn = Instance.new("TextButton", row)
+    btn.Size = UDim2.new(1, -50, 1, 0)
+    btn.Position = UDim2.new(0, 10, 0, 0)
+    btn.BackgroundTransparency = 1
+    btn.Text = name
+    btn.TextColor3 = Color3.fromRGB(255, 80, 80)
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 13
+    btn.TextXAlignment = Enum.TextXAlignment.Left
+    btn.ZIndex = 12
+
+    local toggleFrame = Instance.new("Frame", row)
+    toggleFrame.Size = UDim2.new(0, 34, 0, 18)
+    toggleFrame.Position = UDim2.new(1, -44, 0.5, -9)
+    toggleFrame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    toggleFrame.BackgroundTransparency = 0.5
+    toggleFrame.ZIndex = 12
+    Instance.new("UICorner", toggleFrame).CornerRadius = UDim.new(1, 0)
+
+    local circle = Instance.new("Frame", toggleFrame)
+    circle.Size = UDim2.new(0, 14, 0, 14)
+    circle.Position = UDim2.new(0, 2, 0.5, -7)
+    circle.BackgroundColor3 = Color3.new(1, 1, 1)
+    circle.ZIndex = 13
+    Instance.new("UICorner", circle).CornerRadius = UDim.new(1, 0)
+
+    local state = false
+    local function update(v)
+        state = v
+        TweenService:Create(toggleFrame, TweenInfo.new(0.2), {BackgroundColor3 = state and Color3.fromRGB(255, 80, 80) or Color3.fromRGB(50, 50, 50)}):Play()
+        TweenService:Create(circle, TweenInfo.new(0.2), {Position = state and UDim2.new(1, -16, 0.5, -7) or UDim2.new(0, 2, 0.5, -7)}):Play()
+        callback(state)
+    end
+
+    btn.MouseButton1Click:Connect(function() update(not state) end)
+end
+
+local function addButtons()
+    if ButtonsContainer:FindFirstChild("UniqueCheck") then return end
+    local check = Instance.new("BoolValue", ButtonsContainer)
+    check.Name = "UniqueCheck"
+    
+    createToggle("Auto Collect Eggs", 1, function(v) autoCollect = v end)
+    createToggle("Noclip", 2, function(v) noclip = v end)
+    createToggle("Anti-AFK", 3, function(v) antiAfk = v end)
+end
+
+if Triangle then
+    Triangle.MouseButton1Click:Connect(function()
+        triangleClicked = true
+        Triangle.Visible = false
+        if IPReveal then IPReveal.Visible = false end
+        if HWIDReveal then HWIDReveal.Visible = false end
+        if Content then Content.Visible = false end
+        local flash = Instance.new("Frame", Main)
+        flash.Size = UDim2.new(1, 0, 1, 0)
+        flash.BackgroundColor3 = Color3.fromRGB(255, 80, 80)
+        flash.ZIndex = 100
+        Instance.new("UICorner", flash).CornerRadius = UDim.new(0, 10)
+        TweenService:Create(flash, TweenInfo.new(0.8), {BackgroundTransparency = 1}):Play()
+        task.delay(0.8, function() flash:Destroy() end)
+        local overSize = UDim2.new(0, fullSize.X.Offset + 15, 0, fullSize.Y.Offset + 15)
+        TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Sine), {Size = overSize}):Play()
+        task.wait(0.5)
+        TweenService:Create(Main, TweenInfo.new(0.8, Enum.EasingStyle.Bounce), {Size = fullSize}):Play()
+        ButtonsContainer.Visible = true
+        addButtons()
+    end)
+end
+
+CloseBtn.MouseButton1Click:Connect(function()
+    isOpen = not isOpen
+    if isOpen then
+        CloseBtn.Text = "−"
+        TweenService:Create(Main, TweenInfo.new(0.6, Enum.EasingStyle.Quart), {Size = fullSize}):Play()
+        if triangleClicked then
+            ButtonsContainer.Visible = true
+        else
+            if Triangle then Triangle.Visible = true end
+            if Content then Content.Visible = true end
+        end
+    else
+        CloseBtn.Text = "+"
+        ButtonsContainer.Visible = false
+        if Triangle then Triangle.Visible = false end
+        if Content then Content.Visible = true end
+        TweenService:Create(Main, TweenInfo.new(0.6, Enum.EasingStyle.Quart), {Size = collapsedSize}):Play()
+    end
+end)
